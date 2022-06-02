@@ -28,8 +28,7 @@ def render_video(resolution, numframes, scene, name, spp, fps, exposure=0):
 	for i in tqdm(list(range(min(numframes,numframes+1))), unit="frames", desc=f"Rendering"):
 		testbed.camera_smoothing = i > 0
 		frame = testbed.render(resolution[0], resolution[1], spp, True, float(i)/numframes, float(i + 1)/numframes, fps, shutter_fraction=0.5)
-		common.write_image(f"temp/{
-      i:04d}.jpg", np.clip(frame * 2**exposure, 0.0, 1.0), quality=100)
+		common.write_image(f"temp/{i:04d}.jpg", np.clip(frame * 2**exposure, 0.0, 1.0), quality=100)
 
 	os.system(f"ffmpeg -i temp/%04d.jpg -vf \"fps={
       fps}\" -c:v libx264 -pix_fmt yuv420p {
